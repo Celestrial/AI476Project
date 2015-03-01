@@ -1,12 +1,18 @@
 ﻿using System.Collections;
+using System;
 
-public class HPlayer : PlayerManager {
+namespace comp472project
+{
+    public class HPlayer : PlayerManager
+    {
 
-	public HPlayer(char color) :base(color){}
+        public HPlayer(char color) : base(color) { }
 
-	public override Move getMove()
-	{
-		return null;
-	}
+        public override string getMove()
+        {
+            Console.Out.Write("Please enter "+getColor()+" play position: ");
+            return Console.ReadLine().ToUpper();
+        }
 
+    }
 }
