@@ -1,0 +1,8 @@
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\obj\Debug\comp472project.Properties.Resources.resources
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\obj\Debug\comp472project.csproj.GenerateResource.Cache
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\bin\Debug\comp472project.exe.config
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\bin\Debug\comp472project.exe
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\bin\Debug\comp472project.pdb
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\obj\Debug\comp472project.exe
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\obj\Debug\comp472project.pdb
+C:\Users\Donna\documents\visual studio 2013\Projects\comp472project\comp472project\obj\Debug\comp472project.csprojResolveAssemblyReference.cache
