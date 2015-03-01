@@ -7,14 +7,14 @@ namespace comp472project
 
         char color;
         //bool AI; 
-        Move move;
+        //Move move;
+
+        public abstract string getMove();
 
         public PlayerManager(char color)
         {
             this.color = color;
         }
-
-        public abstract string getMove();
 
         public char getColor()
         {
