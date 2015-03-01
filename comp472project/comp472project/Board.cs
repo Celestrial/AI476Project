@@ -20,12 +20,12 @@ public class Board {
         {
             for (int i = 0; i < SIZE; ++i)
             {
-                //gameBoard[j,i] = 'E';
+                gameBoard[j,i] = 'E';
 
-                if (j == SIZE - 1 || i == SIZE -1)
-                    gameBoard[j, i] = 'E';
-                else
-                    gameBoard[j, i] = 'B';
+                //if (j == SIZE - 1 || i == SIZE -1)
+                //    gameBoard[j, i] = 'E';
+                //else
+                //    gameBoard[j, i] = 'B';
             }
         }
 	}
