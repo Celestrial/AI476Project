@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 
-public abstract class PlayerManager  {
+namespace comp472project
+{
+    public abstract class PlayerManager
+    {
 
-	public class Move{
-		protected int x;
-		protected int y;
-	}
+        char color;
+        //bool AI; 
+        Move move;
 
-	char color;
-	//bool AI; 
-	Move move;
+        public PlayerManager(char color)
+        {
+            this.color = color;
+        }
 
-	public PlayerManager(char color)
-	{
-		this.color = color;
-	}
+        public abstract string getMove();
 
-	public abstract  Move getMove ();
+        public char getColor()
+        {
+            return color;
+        }
 
+    }
 }

@@ -42,6 +42,9 @@ namespace comp472project
 
         bool validPlay(char color, int x, int y)
         {
+            if (x < 0 || x >= board.getSize() || y < 0 || y >= board.getSize())
+                return false;
+
             if (board.getCell(x, y) == 'E')
             {
                 if (color == 'W' && (y >= 0 && y < board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
@@ -71,25 +74,24 @@ namespace comp472project
         {
             if (gameState == GameState.WhitePlay)
             {
-                Console.Out.Write("Please enter white play position: ");
-                move.setMove( Console.ReadLine().ToUpper());
+               
+                move.setMove( p1.getMove());
 
-                while (validPlay('W', move.getX(), move.getY()) == false)
+                while (validPlay(p1.getColor(), move.getX(), move.getY()) == false)
                 {
                     Console.Out.WriteLine("Move entered is invalid, please try again: ");
-                    move.setMove(Console.ReadLine().ToUpper());
+                    move.setMove(p1.getMove());
                 }
                 return move;
             }
             else
             {
-                Console.Out.Write("Please enter black play position: ");
-                move.setMove( Console.ReadLine().ToUpper());
+                move.setMove(p2.getMove());
 
-                while ( validPlay('B', move.getX(), move.getY()) == false)
+                while ( validPlay(p2.getColor(), move.getX(), move.getY()) == false)
                 {
                     Console.Out.WriteLine("Move entered is invalid, please try again: ");
-                    move.setMove(Console.ReadLine().ToUpper());
+                    move.setMove(p2.getMove());
                 }
                 return move;
             }

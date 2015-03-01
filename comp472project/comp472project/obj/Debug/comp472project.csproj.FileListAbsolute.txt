@@ -14,3 +14,11 @@ C:\Users\Donna\Documents\AI476Project\comp472project\comp472project\bin\Debug\co
 C:\Users\Donna\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csprojResolveAssemblyReference.cache
 C:\Users\Donna\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.Properties.Resources.resources
 C:\Users\Donna\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csproj.GenerateResource.Cache
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csprojResolveAssemblyReference.cache
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.Properties.Resources.resources
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csproj.GenerateResource.Cache
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.exe
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.pdb
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\bin\Debug\comp472project.exe.config
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\bin\Debug\comp472project.exe
+C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\bin\Debug\comp472project.pdb
