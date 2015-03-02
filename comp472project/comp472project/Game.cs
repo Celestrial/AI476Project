@@ -18,7 +18,25 @@ namespace comp472project
             Console.Out.Write("Enter number of AI players: ");
             string num = Console.ReadLine();
             move = new Move();
-            numberOfAIPlayers = Convert.ToInt32(num);
+            try
+            {
+                numberOfAIPlayers = Convert.ToInt32(num);
+            }
+            catch(FormatException e)
+            {
+                Console.WriteLine("Invalid number of players, default NO AI selected.");
+                numberOfAIPlayers = 0;
+            }
+            finally
+            {
+                if(numberOfAIPlayers < 0 || numberOfAIPlayers > 2)
+                {
+                    Console.WriteLine("Invalid number of players, default NO AI selected.");
+                    numberOfAIPlayers = 0;
+                }
+            }
+   
+
             gameState = GameState.WhitePlay;
 
 
@@ -82,7 +100,6 @@ namespace comp472project
                     Console.Out.WriteLine("Move entered is invalid, please try again: ");
                     move.setMove(p1.getMove());
                 }
-                return move;
             }
             else
             {
@@ -93,8 +110,8 @@ namespace comp472project
                     Console.Out.WriteLine("Move entered is invalid, please try again: ");
                     move.setMove(p2.getMove());
                 }
-                return move;
             }
+            return move;
         }
 
         void placeTile()
