@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/*
+ *SEAN CELESTIN
+ *4718593
+ *DELIVERABLE 1 FOR COMP 472 PROJECT
+ *MARCH 01, 2015
+ *“I certify that this submission is my original work and meets the Faculty's Expectations of Originality”
+ */
 namespace comp472project
 {
     static class Program
