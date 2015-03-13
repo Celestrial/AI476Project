@@ -50,6 +50,8 @@
     <Compile Include="AIPlayer.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="StateSpace.cs" />
+    <Compile Include="Heuristic.cs" />
     <Compile Include="HPlayer.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="PlayerManager.cs" />

@@ -5,8 +5,8 @@ namespace comp472project
 {
     public class Board
     {
-        const int SIZE = 8;
-        char[,] gameBoard;
+        const int SIZE = 3;
+        public static char[,] gameBoard;
 
 
         public void setBoard()

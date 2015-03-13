@@ -3,7 +3,7 @@ using System;
 
 namespace comp472project
 {
-    public enum GameState { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
+    public enum StateSpace { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
 
     public class Game
     {
@@ -11,7 +11,7 @@ namespace comp472project
         Board board;
         Move move;
         PlayerManager p1, p2;
-        GameState gameState;
+        StateSpace gameState;
 
         public Game()
         {
@@ -37,7 +37,7 @@ namespace comp472project
             }
    
 
-            gameState = GameState.WhitePlay;
+            gameState = StateSpace.WhitePlay;
 
 
             if (numberOfAIPlayers == 0)
@@ -77,7 +77,7 @@ namespace comp472project
             return false;
         }
 
-        public GameState getGameState()
+        public StateSpace getGameState()
         {
             return gameState;
         }
@@ -90,7 +90,7 @@ namespace comp472project
 
         Move getPlay()
         {
-            if (gameState == GameState.WhitePlay)
+            if (gameState == StateSpace.WhitePlay)
             {
                
                 move.setMove( p1.getMove());
@@ -116,7 +116,7 @@ namespace comp472project
 
         void placeTile()
         {
-            if (gameState == GameState.WhitePlay)
+            if (gameState == StateSpace.WhitePlay)
             {
                 board.changeTile('W', move.getX(), move.getY());
                 board.changeTile('W', move.getX(), move.getY() + 1);
@@ -130,7 +130,7 @@ namespace comp472project
 
         public void check4Win()
         {
-            if(gameState == GameState.BlackPlay)
+            if(gameState == StateSpace.BlackPlay)
             {
                 for(int i = 0; i < board.getSize(); ++i)
                 {
@@ -155,11 +155,11 @@ namespace comp472project
                 }
             }
             printBoard();
-            if (gameState == GameState.BlackPlay)
+            if (gameState == StateSpace.BlackPlay)
                 Console.WriteLine("Black Wins!!!");
             else
                 Console.Write("White Wins!!!");
-            gameState = GameState.GameOver;
+            gameState = StateSpace.GameOver;
         }
 
         internal void printBoard()
@@ -176,10 +176,10 @@ namespace comp472project
 
         internal void switchPlayers()
         {
-            if (gameState == GameState.WhitePlay)
-                gameState = GameState.BlackPlay;
-            else if (gameState == GameState.BlackPlay)
-                gameState = GameState.WhitePlay;
+            if (gameState == StateSpace.WhitePlay)
+                gameState = StateSpace.BlackPlay;
+            else if (gameState == StateSpace.BlackPlay)
+                gameState = StateSpace.WhitePlay;
         }
     }
 }
