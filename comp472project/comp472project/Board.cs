@@ -69,7 +69,9 @@ namespace comp472project
 
         public char getCell(int x, int y)
         {
-            return gameBoard[x, y];
+            if (x >= SIZE || y >= SIZE)
+                return '\0';
+             return gameBoard[x, y];
         }
 
         public int getSize()

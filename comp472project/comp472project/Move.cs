@@ -10,6 +10,7 @@ namespace comp472project
     {
         int x;
         int y;
+        char color;
 
         public void setMove (string input)
         {
@@ -25,6 +26,12 @@ namespace comp472project
                 x = -1;
                 y = -1;
             }
+        }
+        public void setMove(int x, int y, char color)
+        {
+            this.x = x;
+            this.y = y;
+            this.color = color;
         }
 
         public int getX()

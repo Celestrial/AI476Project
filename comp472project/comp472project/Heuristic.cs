@@ -21,5 +21,10 @@ namespace comp472project
         {
             lowestGSLevel = new GameStateNode(Game.getBoard());
         }
+
+        public Move getPlay(char color)
+        {
+            return lowestGSLevel.getPossibleMove(color);
+        }
     }
 }

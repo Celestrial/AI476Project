@@ -14,13 +14,15 @@ namespace comp472project
         int blackMoves;
         int score;
         int depth = 0;
+        Move move = new Move();
         List<GameStateNode> possibleMoves;
 
-        public GameStateNode(Board gameBoard, int depth)
+        public GameStateNode(Board gameBoard, int depth, Move change)
         {
             //CONSTRUCTOR FOR NESTED NODES
             boardState = gameBoard;
             this.depth = depth + 1;
+            move = change;
             possibleMoves = new List<GameStateNode>();
             calculateScore();
         }
@@ -42,32 +44,37 @@ namespace comp472project
             {
                 for (int j = 0; j < boardSize; ++j)
                 {
-                    if (i == boardSize - 1 && j == boardSize - 1)
-                        continue;
-                    else if (i == boardSize - 1)
+                    //if (i == boardSize - 1 && j == boardSize - 1)
+                    //    continue;
+                    /*if (i == boardSize - 1)
                     {
                         if (boardState.getCell(i, j) == 'E' && boardState.getCell(i, j + 1) == 'E')
                         {
                             ++blackMoves;
                             generateNodeState('B', i, j);
+                            continue;
                         }
                     }
-                    else if (j == boardSize - 1)
+                    if (j == boardSize - 1)
                     {
                         if (boardState.getCell(i, j) == 'E' && boardState.getCell(i + 1, j) == 'E')
                         {
                             ++whiteMoves;
                             generateNodeState('W', i, j);
+                            continue;
                         }
-                    }
-                    else
+                    }*/
+                    if (boardState.getCell(i, j) == 'E')
                     {
-                        if (boardState.getCell(i, j) == 'E')
+                        if (boardState.getCell(i, j + 1) == 'E')
                         {
-                            if (boardState.getCell(i, j + 1) == 'E')
-                                ++blackMoves;
-                            if (boardState.getCell(i + 1, j) == 'E')
-                                ++whiteMoves;
+                            ++blackMoves;
+                            generateNodeState('B', i, j);
+                        }
+                        if (boardState.getCell(i + 1, j) == 'E')
+                        {
+                            ++whiteMoves;
+                            generateNodeState('W', i, j);
                         }
                     }
                 }
@@ -80,10 +87,11 @@ namespace comp472project
             //GENERATES GAME STATES AND STATE SCORES
             GameStateNode newGameState;
             Board newBoard = boardState;
+            Move newMove;
             if(color == 'B')
             {
                 newBoard.changeTile(color, i, j);
-                newBoard.changeTile(color, i, j+1);
+                newBoard.changeTile(color, i, j + 1);
             }
             else
             {
@@ -91,12 +99,21 @@ namespace comp472project
                 newBoard.changeTile(color, i + 1, j);
             }
 
-            if (depth != MAX_DEPTH && blackMoves != 0 && whiteMoves != 0)
+            if (depth != MAX_DEPTH /*&& blackMoves != 0 && whiteMoves != 0*/)
             {
-                newGameState = new GameStateNode(newBoard, depth);
+                newMove = new Move();
+                newMove.setMove(i, j+1, color);
+                newGameState = new GameStateNode(newBoard, depth, newMove);
                 newGameState.calculateScore();
                 possibleMoves.Add(newGameState);
             }
+        }
+        public Move getPossibleMove(char color)
+        {
+            if (color == 'W')
+                return possibleMoves.Last().move;
+            else
+                return possibleMoves.First().move;
         }
     }
 }
