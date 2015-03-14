@@ -8,13 +8,15 @@ namespace comp472project
     public class Game
     {
         int numberOfAIPlayers;
-        Board board;
+        static Board board;
         Move move;
         PlayerManager p1, p2;
         GameState gameState;
 
         public Game()
         {
+            board = new Board();
+
             Console.Out.Write("Enter number of AI players: ");
             string num = Console.ReadLine();
             move = new Move();
@@ -55,7 +57,6 @@ namespace comp472project
                 p2 = new AIPlayer('B');
                 p1 = new AIPlayer('W');
             }
-            board = new Board();
         }
 
         bool validPlay(char color, int x, int y)
@@ -180,6 +181,11 @@ namespace comp472project
                 gameState = GameState.BlackPlay;
             else if (gameState == GameState.BlackPlay)
                 gameState = GameState.WhitePlay;
+        }
+
+        public static Board getBoard()
+        {
+            return board;
         }
     }
 }

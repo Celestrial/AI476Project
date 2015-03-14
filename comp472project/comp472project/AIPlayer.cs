@@ -4,8 +4,11 @@ namespace comp472project
 {
     public class AIPlayer : PlayerManager
     {
-
-        public AIPlayer(char color) : base(color) { }
+        Heuristic skyNet;
+        public AIPlayer(char color) : base(color) 
+        {
+            skyNet = new Heuristic();
+        }
 
         public override string getMove()
         {
