@@ -16,7 +16,7 @@ namespace comp472project
         {
             Game myGame = new Game();
 
-            while(myGame.getGameState() != StateSpace.GameOver)
+            while (myGame.getGameState() != PlayState.GameOver)
             {
                 myGame.makeMove();
                 myGame.check4Win();

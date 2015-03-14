@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace comp472project
 {
-    [Serializable]
     public class Heuristic
     {
+        //public void genWhitePlays(Board currentState)
+        //{
 
+        //}
+        //public void genBlackPlays(Board currentState)
+        //{
+
+        //}
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace comp472project
 {
-    public enum StateSpace { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
+    public enum PlayState { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
 
     public class Game
     {
@@ -11,7 +11,7 @@ namespace comp472project
         Board board;
         Move move;
         PlayerManager p1, p2;
-        StateSpace gameState;
+        PlayState gameState;
 
         public Game()
         {
@@ -35,9 +35,9 @@ namespace comp472project
                     numberOfAIPlayers = 0;
                 }
             }
-   
 
-            gameState = StateSpace.WhitePlay;
+
+            gameState = PlayState.WhitePlay;
 
 
             if (numberOfAIPlayers == 0)
@@ -77,7 +77,7 @@ namespace comp472project
             return false;
         }
 
-        public StateSpace getGameState()
+        public PlayState getGameState()
         {
             return gameState;
         }
@@ -90,7 +90,7 @@ namespace comp472project
 
         Move getPlay()
         {
-            if (gameState == StateSpace.WhitePlay)
+            if (gameState == PlayState.WhitePlay)
             {
                
                 move.setMove( p1.getMove());
@@ -116,21 +116,29 @@ namespace comp472project
 
         void placeTile()
         {
-            if (gameState == StateSpace.WhitePlay)
+            if (gameState == PlayState.WhitePlay)
             {
-                board.changeTile('W', move.getX(), move.getY());
-                board.changeTile('W', move.getX(), move.getY() + 1);
+                board.placeTile('W', move);
             }
             else
             {
-                board.changeTile('B', move.getX(), move.getY());
-                board.changeTile('B', move.getX() + 1, move.getY());
+                board.placeTile('B', move);
             }
+            //if (gameState == PlayState.WhitePlay)
+            //{
+            //    board.changeTile('W', move.getX(), move.getY());
+            //    board.changeTile('W', move.getX(), move.getY() + 1);
+            //}
+            //else
+            //{
+            //    board.changeTile('B', move.getX(), move.getY());
+            //    board.changeTile('B', move.getX() + 1, move.getY());
+            //}
         }
 
         public void check4Win()
         {
-            if(gameState == StateSpace.BlackPlay)
+            if (gameState == PlayState.BlackPlay)
             {
                 for(int i = 0; i < board.getSize(); ++i)
                 {
@@ -155,11 +163,11 @@ namespace comp472project
                 }
             }
             printBoard();
-            if (gameState == StateSpace.BlackPlay)
+            if (gameState == PlayState.BlackPlay)
                 Console.WriteLine("Black Wins!!!");
             else
                 Console.Write("White Wins!!!");
-            gameState = StateSpace.GameOver;
+            gameState = PlayState.GameOver;
         }
 
         internal void printBoard()
@@ -176,10 +184,10 @@ namespace comp472project
 
         internal void switchPlayers()
         {
-            if (gameState == StateSpace.WhitePlay)
-                gameState = StateSpace.BlackPlay;
-            else if (gameState == StateSpace.BlackPlay)
-                gameState = StateSpace.WhitePlay;
+            if (gameState == PlayState.WhitePlay)
+                gameState = PlayState.BlackPlay;
+            else if (gameState == PlayState.BlackPlay)
+                gameState = PlayState.WhitePlay;
         }
     }
 }

@@ -36,6 +36,10 @@ namespace comp472project
         {
             setBoard();
         }
+        public Board(Board otherBoard)
+        {
+            gameBoard = otherBoard.getBoard();
+        }
 
         public void changeTile(char color, char row, int col)
         {
@@ -71,10 +75,30 @@ namespace comp472project
         {
             return gameBoard[x, y];
         }
-
+        public void placeTile(char player, Move curMove)
+        {
+            if (player == 'W')
+            {
+                changeTile('W', curMove.getX(), curMove.getY());
+                changeTile('W', curMove.getX(), curMove.getY() + 1);
+            }
+            else
+            {
+                changeTile('B', curMove.getX(), curMove.getY());
+                changeTile('B', curMove.getX() + 1, curMove.getY());
+            }
+            StateSpace newBoard = new StateSpace(this);
+            newBoard.calcScores();
+            Node newNode = new Node(newBoard, player == 'W' ? true : false);
+        }
         public int getSize()
         {
             return SIZE;
+        }
+
+        public char[,] getBoard()
+        {
+            return gameBoard;
         }
     }
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace comp472project
 {
-    [Serializable]
     public class StateSpace
     {
         Board gameState;
         int boardSize;
+        //SCORE IS 0 WHEN PLAYER HAS NO MOVES
         float whiteScore;
         float blackScore;
-        const float winState = 0;
+        //const float winState = 0;
         Byte[,] boardID;
 
         public StateSpace(Board currentState)
@@ -23,9 +23,9 @@ namespace comp472project
             boardID = new Byte[boardSize, boardSize];
         }
 
-        [NonSerialized]
         public void calcScores()
         {
+            //CALCULATE SCORES AND GENERATE ID
             char cellValue;
             for(int i = 0; i < boardSize; ++i)
             {
@@ -35,9 +35,9 @@ namespace comp472project
                     if (cellValue == 'E')
                     {
                         boardID[i, j] = 0;
-                        if (gameState.getCell(i, j + 1) == 'E')
+                        if (j+1 != boardSize && gameState.getCell(i, j + 1) == 'E')
                             ++whiteScore;
-                        if (gameState.getCell(i + 1, j) == 'E')
+                        if (i+1 != boardSize && gameState.getCell(i + 1, j) == 'E')
                             ++blackScore;
                     }
                     else if (cellValue == 'W')
@@ -46,6 +46,10 @@ namespace comp472project
                         boardID[i, j] = 2;
                 }
             }
+        }
+        public Board getBoard()
+        {
+            return gameState;
         }
     }
 }
