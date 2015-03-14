@@ -27,7 +27,7 @@ namespace comp472project
                     //if (j == SIZE - 1 || i == SIZE -1)
                     //    gameBoard[j, i] = 'E';
                     //else
-                    //    gameBoard[j, i] = 'B';
+                    //    gameBoard[j, i] = 'W';
                 }
             }
         }
@@ -43,13 +43,13 @@ namespace comp472project
             int iRow = ((int)char.ToUpper(row)) - 65;
             if (iRow >= SIZE || iRow < 0)
                 return;
-            if (char.ToUpper(color) == 'B')
+            if (char.ToUpper(color) == 'W')
             {
-                gameBoard[iRow, col] = 'B';
+                gameBoard[iRow, col] = 'W';
             }
             else
             {
-                gameBoard[iRow, col] = 'W';
+                gameBoard[iRow, col] = 'B';
             }
         }
 
@@ -57,13 +57,13 @@ namespace comp472project
         {
             if (row >= SIZE || row < 0)
                 return;
-            if (char.ToUpper(color) == 'B')
+            if (char.ToUpper(color) == 'W')
             {
-                gameBoard[row, col] = 'B';
+                gameBoard[row, col] = 'W';
             }
             else
             {
-                gameBoard[row, col] = 'W';
+                gameBoard[row, col] = 'B';
             }
         }
 

@@ -42,18 +42,18 @@ namespace comp472project
 
             if (numberOfAIPlayers == 0)
             {
-                p1 = new HPlayer('W');
                 p2 = new HPlayer('B');
+                p1 = new HPlayer('W');
             }
             else if (numberOfAIPlayers == 1)
             {
-                p1 = new HPlayer('W');
-                p2 = new AIPlayer('B');
+                p2 = new HPlayer('B');
+                p1 = new AIPlayer('W');
             }
             else
             {
-                p1 = new AIPlayer('W');
                 p2 = new AIPlayer('B');
+                p1 = new AIPlayer('W');
             }
             board = new Board();
         }
@@ -116,15 +116,15 @@ namespace comp472project
 
         void placeTile()
         {
-            if (gameState == GameState.WhitePlay)
+            if (gameState == GameState.BlackPlay)
             {
-                board.changeTile('W', move.getX(), move.getY());
-                board.changeTile('W', move.getX(), move.getY() + 1);
+                board.changeTile('B', move.getX(), move.getY());
+                board.changeTile('B', move.getX(), move.getY() + 1);
             }
             else
             {
-                board.changeTile('B', move.getX(), move.getY());
-                board.changeTile('B', move.getX() + 1, move.getY());
+                board.changeTile('W', move.getX(), move.getY());
+                board.changeTile('W', move.getX() + 1, move.getY());
             }
         }
 
