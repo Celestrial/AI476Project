@@ -21,6 +21,7 @@ namespace comp472project
         public GameStateNode(Board gameBoard, int depth, Move change, GameState gameState)
         {
             //CONSTRUCTOR FOR NESTED NODES
+            gameState = new GameState();
             this.gameState = (gameState == GameState.WhitePlay ? GameState.BlackPlay : GameState.WhitePlay); ;
             boardState = gameBoard;//copy the current board under consideration
             this.depth = depth+1; // number
