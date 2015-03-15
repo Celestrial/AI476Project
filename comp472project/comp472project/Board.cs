@@ -5,7 +5,7 @@ namespace comp472project
 {
     public class Board
     {
-        static int SIZE = 3;
+        static int SIZE = 4;
         char[,] gameBoard;
 
 

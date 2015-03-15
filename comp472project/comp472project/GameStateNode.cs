@@ -16,17 +16,17 @@ namespace comp472project
         int depth = 0;
         Move move = new Move();
         GameState gameState;
-        List<GameStateNode> possibleMoves;
+        SortedList<int, GameStateNode> possibleMoves;
 
         public GameStateNode(Board gameBoard, int depth, Move change, GameState gameState)
         {
             //CONSTRUCTOR FOR NESTED NODES
-            gameState = new GameState();
-            this.gameState = (gameState == GameState.WhitePlay ? GameState.BlackPlay : GameState.WhitePlay); ;
+            this.gameState = new GameState();
+            this.gameState = (gameState == GameState.WhitePlay ? GameState.BlackPlay : GameState.WhitePlay);
             boardState = gameBoard;//copy the current board under consideration
             this.depth = depth+1; // number
             move = change;
-            possibleMoves = new List<GameStateNode>();
+            possibleMoves = new SortedList<int, GameStateNode>(new DuplicateKeyComparer<int>());
             calculateScore();
         }
         public GameStateNode(Board gameBoard, GameState gameState)
@@ -35,11 +35,12 @@ namespace comp472project
             this.gameState = gameState;
             boardState = gameBoard;
             depth = 0;
-            possibleMoves = new List<GameStateNode>();
+            possibleMoves = new SortedList<int, GameStateNode>(new DuplicateKeyComparer<int>());
             calculateScore();
         }
 
-        void calculateScore()//MAIN HEURISTIC FUNCTION
+        void calculateScore()
+        //MAIN HEURISTIC FUNCTION
         {
             whiteMoves = blackMoves = 0;
             //CALCULATE SCORE OF CURRENT GAME STATE
@@ -68,8 +69,8 @@ namespace comp472project
             score = whiteMoves - blackMoves;
         }
         void generateNodeState(char color, int i, int j, GameState gameState)
+        //GENERATES GAME STATE TREE AND STATE SCORES USED FOR MIN MAX
         {
-            //GENERATES GAME STATES AND STATE SCORES
             GameStateNode newGameStateNode;
             Board newBoard = new Board(boardState);
             Move newMove;
@@ -93,23 +94,32 @@ namespace comp472project
                 newGameStateNode.calculateScore();
                 //Adjust move to be on 1-N scale so it uses same notation as human
                 newMove.setMove(newMove.getX(), newMove.getY() + 1, color);
-                possibleMoves.Add(newGameStateNode);
+                possibleMoves.Add(newGameStateNode.getScore(), newGameStateNode);
             }
         }
         public Move getPossibleMove(char color)
+        //GET MOVE FROM THE MIN MAX TREE FOR AI PLAYER
         {
             if (possibleMoves.Count != 0)
             {
                 if (color == 'W')
-                    return possibleMoves.Last().move;
+                    return possibleMoves.Last().Value.move;
                 else
-                    return possibleMoves.First().move;
+                    return possibleMoves.First().Value.move;
+                //return findBestMove(color);
             }
             else
             {
-
                 return null;
             }
+        }
+        public Move findBestMove(char color)
+        {
+            return null;
+        }
+        public int getScore()
+        {
+            return score;
         }
     }
 }
