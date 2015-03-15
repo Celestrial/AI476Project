@@ -13,6 +13,7 @@ namespace comp472project
 
         public override string getMove()
         {
+            skyNet.generatePlayOptions(Game.gameState);
             Move temp = skyNet.getPlay(base.getColor());
             char convert = (char)(temp.getX()+65);
             return convert + temp.getY().ToString();

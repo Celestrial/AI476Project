@@ -11,7 +11,7 @@ namespace comp472project
         static Board board;
         Move move;
         PlayerManager p1, p2;
-        GameState gameState;
+        public static GameState gameState;
 
         public Game()
         {

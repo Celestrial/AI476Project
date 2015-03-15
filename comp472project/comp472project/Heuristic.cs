@@ -14,12 +14,12 @@ namespace comp472project
         public Heuristic()
         {
             //currentState = Game.getBoard();
-            generatePlayOptions();
+            //generatePlayOptions();
         }
 
-        public void generatePlayOptions()
+        public void generatePlayOptions(GameState gameState)
         {
-            lowestGSLevel = new GameStateNode(Game.getBoard());
+            lowestGSLevel = new GameStateNode(Game.getBoard(), gameState);
         }
 
         public Move getPlay(char color)

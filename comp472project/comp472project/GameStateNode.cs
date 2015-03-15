@@ -15,6 +15,7 @@ namespace comp472project
         int score;
         int depth = 0;
         Move move = new Move();
+        GameState gameState;
         List<GameStateNode> possibleMoves;
 
         public GameStateNode(Board gameBoard, int depth, Move change)
@@ -26,9 +27,10 @@ namespace comp472project
             possibleMoves = new List<GameStateNode>();
             calculateScore();
         }
-        public GameStateNode(Board gameBoard)
+        public GameStateNode(Board gameBoard, GameState gameState)
         {
             //CONSTRUCTOR FOR ROOT NODE, OR CURRENT GAME PLAY
+            this.gameState = gameState;
             boardState = gameBoard;
             depth = 0;
             possibleMoves = new List<GameStateNode>();
@@ -46,12 +48,12 @@ namespace comp472project
                 {
                     if (boardState.getCell(i, j) == 'E')
                     {
-                        if (boardState.getCell(i, j + 1) == 'E')
+                        if (gameState == GameState.BlackPlay && boardState.getCell(i, j + 1) == 'E')
                         {
                             ++blackMoves;
                             generateNodeState('B', i, j);
                         }
-                        if (boardState.getCell(i + 1, j) == 'E')
+                        if (gameState == GameState.WhitePlay && boardState.getCell(i + 1, j) == 'E')
                         {
                             ++whiteMoves;
                             generateNodeState('W', i, j);
