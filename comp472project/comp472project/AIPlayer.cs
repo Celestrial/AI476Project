@@ -20,6 +20,12 @@ namespace comp472project
                 return null;
             char convert = (char)(temp.getX()+65);
             play = convert + temp.getY().ToString();
+
+            if (base.getColor() == 'W')
+            {
+                //USED TO LIMIT TREE DEPTH FOR FIRST 3 PAIRS OF MOVES
+                ++Game.playCount;
+            }
             return play;
         }
     }

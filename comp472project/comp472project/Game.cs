@@ -7,6 +7,7 @@ namespace comp472project
 
     public class Game
     {
+        public static int playCount = 0;
         int numberOfAIPlayers;
         static Board board;
         Move move;
