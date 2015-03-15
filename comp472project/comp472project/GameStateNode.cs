@@ -20,8 +20,8 @@ namespace comp472project
         public GameStateNode(Board gameBoard, int depth, Move change)
         {
             //CONSTRUCTOR FOR NESTED NODES
-            boardState = gameBoard;
-            this.depth = depth + 1;
+            boardState = gameBoard;//copy the current board under consideration
+            this.depth = depth; // number
             move = change;
             possibleMoves = new List<GameStateNode>();
             calculateScore();
@@ -103,6 +103,7 @@ namespace comp472project
             {
                 newMove = new Move();
                 newMove.setMove(i, j+1, color);
+                //create a gameStateNode with the new board, the new boards depth, and the move added
                 newGameState = new GameStateNode(newBoard, depth, newMove);
                 newGameState.calculateScore();
                 possibleMoves.Add(newGameState);

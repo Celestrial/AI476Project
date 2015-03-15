@@ -78,6 +78,7 @@ namespace comp472project
             return false;
         }
 
+        //return game state : {whiteplay, blackplay or gameover
         public GameState getGameState()
         {
             return gameState;
