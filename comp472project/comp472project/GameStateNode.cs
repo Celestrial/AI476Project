@@ -102,21 +102,97 @@ namespace comp472project
         {
             if (possibleMoves.Count != 0)
             {
-                if (color == 'W')
-                    return possibleMoves.Last().Value.move;
-                else
-                    return possibleMoves.First().Value.move;
-                //return findBestMove(color);
+                //if (color == 'W')
+                //    return possibleMoves.Last().Value.move;
+                //else
+                //    return possibleMoves.First().Value.move;
+                return findBestMove(color).move;
             }
             else
             {
                 return null;
             }
         }
-        public Move findBestMove(char color)
+        public GameStateNode findBestMove(char color, int level = 0)
         {
-            return null;
+            GameStateNode bestMove = null;
+            //int level = 1;
+
+            //if (possibleMoves.Count != 0)
+            //{
+                if (level <= MAX_DEPTH)
+                {
+                    int bestScore;
+                    if (color == 'W')
+                    {
+                        //return possibleMoves.Last().Value.move;
+                        bestScore = possibleMoves.Last().Key;
+                        int i = possibleMoves.Count - 1;
+                        //from the best score state, get the worst move min will play
+                        while (i >= 0 && possibleMoves.ElementAt(i).Key == bestScore)
+                        {
+                            GameStateNode temp = null;
+                            if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
+                            {
+
+                                temp =  possibleMoves.ElementAt(i--).Value.findBestMove
+                                ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
+                                
+                                if (temp == null)
+                                {
+                                    return possibleMoves.First().Value;
+                                }
+                                else
+                                {
+                                    if (bestMove == null || bestMove.score > temp.score)
+                                        bestMove = temp;
+                                }
+                            }
+                            else
+                            {
+                                //DEBUG
+                                GameStateNode tester = possibleMoves.Last().Value;
+                                //DEBUG
+                                return possibleMoves.Last().Value;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        bestScore = possibleMoves.First().Key;
+                        int i = 0;
+                        while (i < possibleMoves.Count && possibleMoves.ElementAt(i).Key == bestScore)
+                        {
+                            GameStateNode temp = null;
+                            if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
+                            {
+                                temp = possibleMoves.ElementAt(i++).Value.findBestMove
+                                     ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
+
+                                if (temp == null)
+                                {
+                                    return possibleMoves.First().Value;
+                                }
+                                else
+                                {
+                                    if (bestMove == null || bestMove.score < temp.score)
+                                        bestMove = temp;
+                                }
+                            }
+                            else
+                            {
+                                //DEBUG
+                                GameStateNode tester = possibleMoves.First().Value;
+                                //DEBUG
+                                return possibleMoves.First().Value;
+                            }
+    
+                        }
+                    }
+            }
+            return bestMove;
         }
+
         public int getScore()
         {
             return score;
