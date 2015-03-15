@@ -24,7 +24,11 @@ namespace comp472project
 
         public Move getPlay(char color)
         {
-            return lowestGSLevel.getPossibleMove(color);
+            if (lowestGSLevel.getPossibleMove(color) == null)
+                Program.EndGame(Game.gameState);
+            else
+                return lowestGSLevel.getPossibleMove(color);
+            return null;
         }
     }
 }

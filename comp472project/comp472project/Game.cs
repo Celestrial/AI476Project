@@ -66,11 +66,11 @@ namespace comp472project
 
             if (board.getCell(x, y) == 'E')
             {
-                if (color == 'W' && (y >= 0 && y < Board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
+                if (color == 'B' && (y >= 0 && y < Board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
                 {
                     return true;
                 }
-                else if (color == 'B' && (x >= 0 && x < Board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
+                else if (color == 'W' && (x >= 0 && x < Board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
                 {
                     return true;
                 }
@@ -87,14 +87,17 @@ namespace comp472project
         public void makeMove()
         {
             getPlay();//place current play in move variable
-            placeTile();//make visual changes to board
+            if (gameState != GameState.GameOver)
+                placeTile();//make visual changes to board
+            else
+                return;
         }
 
-        Move getPlay()
+        void getPlay()
         {
             if (gameState == GameState.WhitePlay)
             {
-               
+
                 move.setMove( p1.getMove());
 
                 while (validPlay(p1.getColor(), move.getX(), move.getY()) == false)
@@ -113,7 +116,6 @@ namespace comp472project
                     move.setMove(p2.getMove());
                 }
             }
-            return move;
         }
 
         void placeTile()
@@ -132,7 +134,7 @@ namespace comp472project
 
         public void check4Win()
         {
-            if(gameState == GameState.BlackPlay)
+            if(gameState == GameState.WhitePlay)
             {
                 for(int i = 0; i < Board.getSize(); ++i)
                 {
@@ -174,6 +176,8 @@ namespace comp472project
                 }
                 Console.WriteLine();
             }
+
+            Console.WriteLine();
         }
 
         internal void switchPlayers()

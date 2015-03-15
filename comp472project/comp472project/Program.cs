@@ -24,5 +24,15 @@ namespace comp472project
                 myGame.switchPlayers();
             }
         }
+
+        public static void EndGame(GameState gameState)
+        {
+            if(gameState == GameState.WhitePlay)
+                Console.Write("White has no more plays, Black Wins!!!");
+            else
+                Console.Write("Black has no more plays, White Wins!!!");
+                
+            Environment.Exit(0);
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace comp472project
     public class AIPlayer : PlayerManager
     {
         Heuristic skyNet;
+        string play;
 
         public AIPlayer(char color) : base(color) 
         {
@@ -15,8 +16,11 @@ namespace comp472project
         {
             skyNet.generatePlayOptions(Game.gameState);
             Move temp = skyNet.getPlay(base.getColor());
+            if (temp == null)
+                return null;
             char convert = (char)(temp.getX()+65);
-            return convert + temp.getY().ToString();
+            play = convert + temp.getY().ToString();
+            return play;
         }
     }
 }

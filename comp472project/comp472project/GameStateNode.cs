@@ -91,15 +91,25 @@ namespace comp472project
                 //create a gameStateNode with the new board, the new boards depth, and the move added
                 newGameStateNode = new GameStateNode(newBoard, depth, newMove, gameState);
                 newGameStateNode.calculateScore();
+                //Adjust move to be on 1-N scale so it uses same notation as human
+                newMove.setMove(newMove.getX(), newMove.getY() + 1, color);
                 possibleMoves.Add(newGameStateNode);
             }
         }
         public Move getPossibleMove(char color)
         {
-            if (color == 'W')
-                return possibleMoves.Last().move;
+            if (possibleMoves.Count != 0)
+            {
+                if (color == 'W')
+                    return possibleMoves.Last().move;
+                else
+                    return possibleMoves.First().move;
+            }
             else
-                return possibleMoves.First().move;
+            {
+
+                return null;
+            }
         }
     }
 }
