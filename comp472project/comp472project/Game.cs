@@ -61,16 +61,16 @@ namespace comp472project
 
         bool validPlay(char color, int x, int y)
         {
-            if (x < 0 || x >= board.getSize() || y < 0 || y >= board.getSize())
+            if (x < 0 || x >= Board.getSize() || y < 0 || y >= Board.getSize())
                 return false;
 
             if (board.getCell(x, y) == 'E')
             {
-                if (color == 'W' && (y >= 0 && y < board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
+                if (color == 'W' && (y >= 0 && y < Board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
                 {
                     return true;
                 }
-                else if (color == 'B' && (x >= 0 && x < board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
+                else if (color == 'B' && (x >= 0 && x < Board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
                 {
                     return true;
                 }
@@ -134,9 +134,9 @@ namespace comp472project
         {
             if(gameState == GameState.BlackPlay)
             {
-                for(int i = 0; i < board.getSize(); ++i)
+                for(int i = 0; i < Board.getSize(); ++i)
                 {
-                    for(int j = 0; j < board.getSize()-1; ++j)
+                    for(int j = 0; j < Board.getSize()-1; ++j)
                     {
                         if (board.getCell(i, j) == 'E')
                             if (board.getCell(i, j + 1) == 'E')
@@ -146,9 +146,9 @@ namespace comp472project
             }
             else
             {
-                for (int i = 0; i < board.getSize() - 1; ++i)
+                for (int i = 0; i < Board.getSize() - 1; ++i)
                 {
-                    for (int j = 0; j < board.getSize(); ++j)
+                    for (int j = 0; j < Board.getSize(); ++j)
                     {
                         if (board.getCell(i, j) == 'E')
                             if (board.getCell(i + 1, j) == 'E')
@@ -166,9 +166,9 @@ namespace comp472project
 
         internal void printBoard()
         {
-            for(int i = 0; i < board.getSize(); ++i)
+            for(int i = 0; i < Board.getSize(); ++i)
             {
-                for(int j = 0; j < board.getSize(); ++j)
+                for(int j = 0; j < Board.getSize(); ++j)
                 {
                     Console.Write(board.getCell(i, j)+" ,");
                 }

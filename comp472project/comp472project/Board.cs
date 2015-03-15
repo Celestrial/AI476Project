@@ -5,15 +5,25 @@ namespace comp472project
 {
     public class Board
     {
-        const int SIZE = 3;
+        static int SIZE = 3;
         char[,] gameBoard;
 
 
-        public void setBoard()
+        public Board()
         {
-            //gameBoard = new char[(int) System.Math.Pow(SIZE,2)];
             gameBoard = new char[SIZE, SIZE];
             makeBoard();
+        }
+        public Board(Board other)
+        {
+            gameBoard = new char[SIZE, SIZE];
+            for (int i = 0; i < SIZE; ++i)
+            {
+                for (int j = 0; j < SIZE; ++j)
+                {
+                    gameBoard[i, j] = other.getCell(i, j);
+                }
+            }
         }
 
         public void makeBoard()
@@ -23,18 +33,8 @@ namespace comp472project
                 for (int i = 0; i < SIZE; ++i)
                 {
                     gameBoard[j, i] = 'E';
-
-                    //if (j == SIZE - 1 || i == SIZE -1)
-                    //    gameBoard[j, i] = 'E';
-                    //else
-                    //    gameBoard[j, i] = 'W';
                 }
             }
-        }
-
-        public Board()
-        {
-            setBoard();
         }
 
         public void changeTile(char color, char row, int col)
@@ -74,7 +74,7 @@ namespace comp472project
              return gameBoard[x, y];
         }
 
-        public int getSize()
+        public static int getSize()
         {
             return SIZE;
         }

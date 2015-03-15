@@ -33,37 +33,17 @@ namespace comp472project
             depth = 0;
             possibleMoves = new List<GameStateNode>();
             calculateScore();
-
         }
 
-        void calculateScore()
+        void calculateScore()//MAIN HEURISTIC FUNCTION
         {
+            whiteMoves = blackMoves = 0;
             //CALCULATE SCORE OF CURRENT GAME STATE
-            int boardSize = boardState.getSize();
+            int boardSize = Board.getSize();
             for (int i = 0; i < boardSize; ++i)
             {
                 for (int j = 0; j < boardSize; ++j)
                 {
-                    //if (i == boardSize - 1 && j == boardSize - 1)
-                    //    continue;
-                    /*if (i == boardSize - 1)
-                    {
-                        if (boardState.getCell(i, j) == 'E' && boardState.getCell(i, j + 1) == 'E')
-                        {
-                            ++blackMoves;
-                            generateNodeState('B', i, j);
-                            continue;
-                        }
-                    }
-                    if (j == boardSize - 1)
-                    {
-                        if (boardState.getCell(i, j) == 'E' && boardState.getCell(i + 1, j) == 'E')
-                        {
-                            ++whiteMoves;
-                            generateNodeState('W', i, j);
-                            continue;
-                        }
-                    }*/
                     if (boardState.getCell(i, j) == 'E')
                     {
                         if (boardState.getCell(i, j + 1) == 'E')
@@ -80,13 +60,12 @@ namespace comp472project
                 }
             }
             score = whiteMoves - blackMoves;
-            whiteMoves = blackMoves = 0;
         }
         void generateNodeState(char color, int i, int j)
         {
             //GENERATES GAME STATES AND STATE SCORES
             GameStateNode newGameState;
-            Board newBoard = boardState;
+            Board newBoard = new Board(boardState);
             Move newMove;
             if(color == 'B')
             {
