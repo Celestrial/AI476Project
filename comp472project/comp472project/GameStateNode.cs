@@ -106,6 +106,8 @@ namespace comp472project
                 //    return possibleMoves.Last().Value.move;
                 //else
                 //    return possibleMoves.First().Value.move;
+                if (possibleMoves.Count == 1)
+                    return possibleMoves.ElementAt(0).Value.move;
                 return findBestMove(color).move;
             }
             else
