@@ -86,7 +86,7 @@ namespace comp472project
             }
 
             //HACKED COMPUTATION REDUCTION: DOES NOT GENERATE TREE FOR THE FIRST BOARDSIZE - PLAYS > 5 MOVES
-            if (depth <= (Board.getSize() - Game.playCount >= 5 ? 0 : MAX_DEPTH ))
+            if (depth <= (Board.getSize() - Game.playCount >= 2? 0 : Game.depth ))
             {
                 newMove = new Move();
                 newMove.setMove(i, j, color);

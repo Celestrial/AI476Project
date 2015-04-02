@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 
 namespace comp472project
 {
@@ -25,7 +26,9 @@ namespace comp472project
             {
                 //USED TO LIMIT TREE DEPTH FOR FIRST 3 PAIRS OF MOVES
                 ++Game.playCount;
+                Game.depth += 0.3f;
             }
+            Console.WriteLine("Skynet_"+base.getColor()+" play is: " + play);
             return play;
         }
     }

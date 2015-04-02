@@ -8,6 +8,7 @@ namespace comp472project
     public class Game
     {
         public static int playCount = 0;
+        public static float depth = 0;
         int numberOfAIPlayers;
         static Board board;
         Move move;
@@ -169,11 +170,22 @@ namespace comp472project
 
         internal void printBoard()
         {
-            for(int i = 0; i < Board.getSize(); ++i)
+            Console.Write("  "); 
+            for (int i = 0; i < Board.getSize(); ++ i)
             {
-                for(int j = 0; j < Board.getSize(); ++j)
+                Console.Write("  [" + (i+1) + "]");
+            }
+            Console.WriteLine(); 
+
+            for (int i = 0; i < Board.getSize(); ++i)
+            {
+                Console.Write("[" +(char)(65 + i)+"]");
+                for (int j = 0; j < Board.getSize(); ++j)
                 {
-                    Console.Write(board.getCell(i, j)+" ,");
+                    if (j != Board.getSize() - 1)
+                        Console.Write("  " + board.getCell(i, j) + " ,");
+                    else
+                        Console.Write("  " + board.getCell(i, j));
                 }
                 Console.WriteLine();
             }
