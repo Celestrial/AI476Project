@@ -51,8 +51,25 @@ namespace comp472project
             }
             else if (numberOfAIPlayers == 1)
             {
-                p2 = new HPlayer('B');
-                p1 = new AIPlayer('W');
+                Console.Write("Who would like to go first (1 for human, other for AI)?");
+                int input = 0;
+                try
+                {
+                    input = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException e)
+                {
+                    p2 = new HPlayer('B');
+                    p1 = new AIPlayer('W');
+                }
+                finally
+                {
+                    if (input == 1)
+                    {
+                        p2 = new AIPlayer('B');
+                        p1 = new HPlayer('W');
+                    }
+                }
             }
             else
             {
