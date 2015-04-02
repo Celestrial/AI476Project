@@ -116,7 +116,6 @@ namespace comp472project
         {
             if (gameState == GameState.WhitePlay)
             {
-
                 move.setMove( p1.getMove());
 
                 while (validPlay(p1.getColor(), move.getX(), move.getY()) == false)
@@ -135,6 +134,7 @@ namespace comp472project
                     move.setMove(p2.getMove());
                 }
             }
+
         }
 
         void placeTile()

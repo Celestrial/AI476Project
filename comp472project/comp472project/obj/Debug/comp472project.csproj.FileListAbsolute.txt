@@ -21,3 +21,4 @@ C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Deb
 C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csproj.GenerateResource.Cache
 C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.exe
 C:\Users\CELESTRIAL\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.pdb
+C:\Users\celestrial\Documents\AI476Project\comp472project\comp472project\obj\Debug\comp472project.csprojResolveAssemblyReference.cache

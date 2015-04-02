@@ -29,6 +29,7 @@ namespace comp472project
                 Game.depth += 0.3f;
             }
             Console.WriteLine("Skynet_"+base.getColor()+" play is: " + play);
+
             return play;
         }
     }
