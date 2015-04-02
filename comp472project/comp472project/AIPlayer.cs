@@ -32,5 +32,10 @@ namespace comp472project
 
             return play;
         }
+
+        private char[,] getGameBoard()
+        {
+            return Board.gameBoard;
+        }
     }
 }

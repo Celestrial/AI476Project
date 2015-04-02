@@ -3,22 +3,18 @@ using System;
 
 namespace comp472project
 {
-    public enum GameState { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
+    public enum PlayState { WhitePlay = -1, BlackPlay = 1, GameOver = 0 };
 
     public class Game
     {
-        public static int playCount = 0;
-        public static float depth = 0;
         int numberOfAIPlayers;
-        static Board board;
+        Board board;
         Move move;
         PlayerManager p1, p2;
-        public static GameState gameState;
+        PlayState gameState;
 
         public Game()
         {
-            board = new Board();
-
             Console.Out.Write("Enter number of AI players: ");
             string num = Console.ReadLine();
             move = new Move();
@@ -39,57 +35,41 @@ namespace comp472project
                     numberOfAIPlayers = 0;
                 }
             }
-   
 
-            gameState = GameState.WhitePlay;
+
+            gameState = PlayState.WhitePlay;
 
 
             if (numberOfAIPlayers == 0)
             {
-                p2 = new HPlayer('B');
                 p1 = new HPlayer('W');
+                p2 = new HPlayer('B');
             }
             else if (numberOfAIPlayers == 1)
             {
-                Console.Write("Who would like to go first (1 for human, other for AI)?");
-                int input = 0;
-                try
-                {
-                    input = Convert.ToInt32(Console.ReadLine());
-                }
-                catch (FormatException e)
-                {
-                    p2 = new HPlayer('B');
-                    p1 = new AIPlayer('W');
-                }
-                finally
-                {
-                    if (input == 1)
-                    {
-                        p2 = new AIPlayer('B');
-                        p1 = new HPlayer('W');
-                    }
-                }
+                p1 = new HPlayer('W');
+                p2 = new AIPlayer('B');
             }
             else
             {
-                p2 = new AIPlayer('B');
                 p1 = new AIPlayer('W');
+                p2 = new AIPlayer('B');
             }
+            board = new Board();
         }
 
         bool validPlay(char color, int x, int y)
         {
-            if (x < 0 || x >= Board.getSize() || y < 0 || y >= Board.getSize())
+            if (x < 0 || x >= board.getSize() || y < 0 || y >= board.getSize())
                 return false;
 
             if (board.getCell(x, y) == 'E')
             {
-                if (color == 'B' && (y >= 0 && y < Board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
+                if (color == 'W' && (y >= 0 && y < board.getSize() - 1) && board.getCell(x, y + 1) == 'E')
                 {
                     return true;
                 }
-                else if (color == 'W' && (x >= 0 && x < Board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
+                else if (color == 'B' && (x >= 0 && x < board.getSize() - 1) && board.getCell(x + 1, y) == 'E')
                 {
                     return true;
                 }
@@ -97,8 +77,7 @@ namespace comp472project
             return false;
         }
 
-        //return game state : {whiteplay, blackplay or gameover
-        public GameState getGameState()
+        public PlayState getGameState()
         {
             return gameState;
         }
@@ -106,16 +85,14 @@ namespace comp472project
         public void makeMove()
         {
             getPlay();//place current play in move variable
-            if (gameState != GameState.GameOver)
-                placeTile();//make visual changes to board
-            else
-                return;
+            placeTile();//make visual changes to board
         }
 
-        void getPlay()
+        Move getPlay()
         {
-            if (gameState == GameState.WhitePlay)
+            if (gameState == PlayState.WhitePlay)
             {
+               
                 move.setMove( p1.getMove());
 
                 while (validPlay(p1.getColor(), move.getX(), move.getY()) == false)
@@ -134,30 +111,38 @@ namespace comp472project
                     move.setMove(p2.getMove());
                 }
             }
-
+            return move;
         }
 
         void placeTile()
         {
-            if (gameState == GameState.BlackPlay)
+            if (gameState == PlayState.WhitePlay)
             {
-                board.changeTile('B', move.getX(), move.getY());
-                board.changeTile('B', move.getX(), move.getY() + 1);
+                board.placeTile('W', move);
             }
             else
             {
-                board.changeTile('W', move.getX(), move.getY());
-                board.changeTile('W', move.getX() + 1, move.getY());
+                board.placeTile('B', move);
             }
+            //if (gameState == PlayState.WhitePlay)
+            //{
+            //    board.changeTile('W', move.getX(), move.getY());
+            //    board.changeTile('W', move.getX(), move.getY() + 1);
+            //}
+            //else
+            //{
+            //    board.changeTile('B', move.getX(), move.getY());
+            //    board.changeTile('B', move.getX() + 1, move.getY());
+            //}
         }
 
         public void check4Win()
         {
-            if(gameState == GameState.WhitePlay)
+            if (gameState == PlayState.BlackPlay)
             {
-                for(int i = 0; i < Board.getSize(); ++i)
+                for(int i = 0; i < board.getSize(); ++i)
                 {
-                    for(int j = 0; j < Board.getSize()-1; ++j)
+                    for(int j = 0; j < board.getSize()-1; ++j)
                     {
                         if (board.getCell(i, j) == 'E')
                             if (board.getCell(i, j + 1) == 'E')
@@ -167,9 +152,9 @@ namespace comp472project
             }
             else
             {
-                for (int i = 0; i < Board.getSize() - 1; ++i)
+                for (int i = 0; i < board.getSize() - 1; ++i)
                 {
-                    for (int j = 0; j < Board.getSize(); ++j)
+                    for (int j = 0; j < board.getSize(); ++j)
                     {
                         if (board.getCell(i, j) == 'E')
                             if (board.getCell(i + 1, j) == 'E')
@@ -178,49 +163,31 @@ namespace comp472project
                 }
             }
             printBoard();
-            if (gameState == GameState.BlackPlay)
+            if (gameState == PlayState.BlackPlay)
                 Console.WriteLine("Black Wins!!!");
             else
                 Console.Write("White Wins!!!");
-            gameState = GameState.GameOver;
+            gameState = PlayState.GameOver;
         }
 
         internal void printBoard()
         {
-            Console.Write("  "); 
-            for (int i = 0; i < Board.getSize(); ++ i)
+            for(int i = 0; i < board.getSize(); ++i)
             {
-                Console.Write("  [" + (i+1) + "]");
-            }
-            Console.WriteLine(); 
-
-            for (int i = 0; i < Board.getSize(); ++i)
-            {
-                Console.Write("[" +(char)(65 + i)+"]");
-                for (int j = 0; j < Board.getSize(); ++j)
+                for(int j = 0; j < board.getSize(); ++j)
                 {
-                    if (j != Board.getSize() - 1)
-                        Console.Write("  " + board.getCell(i, j) + " ,");
-                    else
-                        Console.Write("  " + board.getCell(i, j));
+                    Console.Write(board.getCell(i, j)+" ,");
                 }
                 Console.WriteLine();
             }
-
-            Console.WriteLine();
         }
 
         internal void switchPlayers()
         {
-            if (gameState == GameState.WhitePlay)
-                gameState = GameState.BlackPlay;
-            else if (gameState == GameState.BlackPlay)
-                gameState = GameState.WhitePlay;
-        }
-
-        public static Board getBoard()
-        {
-            return board;
+            if (gameState == PlayState.WhitePlay)
+                gameState = PlayState.BlackPlay;
+            else if (gameState == PlayState.BlackPlay)
+                gameState = PlayState.WhitePlay;
         }
     }
 }

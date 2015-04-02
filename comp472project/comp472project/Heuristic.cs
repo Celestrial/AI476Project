@@ -6,29 +6,15 @@ using System.Threading.Tasks;
 
 namespace comp472project
 {
-    class Heuristic
+    public class Heuristic
     {
-        //Board currentState;
-        GameStateNode lowestGSLevel;
+        //public void genWhitePlays(Board currentState)
+        //{
 
-        public Heuristic()
-        {
-            //currentState = Game.getBoard();
-            //generatePlayOptions();
-        }
+        //}
+        //public void genBlackPlays(Board currentState)
+        //{
 
-        public void generatePlayOptions(GameState gameState)
-        {
-            lowestGSLevel = new GameStateNode(Game.getBoard(), gameState);
-        }
-
-        public Move getPlay(char color)
-        {
-            if (lowestGSLevel.getPossibleMove(color) == null)
-                Program.EndGame(Game.gameState);
-            else
-                return lowestGSLevel.getPossibleMove(color);
-            return null;
-        }
+        //}
     }
 }
