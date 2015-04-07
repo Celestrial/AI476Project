@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace comp472project
 {
     class GameStateNode
     {
+        public static Stopwatch timer;
+        public static long CREATE_LIMIT = 2500;
         const int MAX_DEPTH = 2;
         Board boardState;
         int whiteMoves;
@@ -16,7 +19,7 @@ namespace comp472project
         int depth = 0;
         Move move = new Move();
         GameState gameState;
-        SortedList<int, GameStateNode> possibleMoves;
+        List< GameStateNode> possibleMoves;
 
         public GameStateNode(Board gameBoard, int depth, Move change, GameState gameState)
         {
@@ -26,7 +29,7 @@ namespace comp472project
             boardState = gameBoard;//copy the current board under consideration
             this.depth = depth+1; // number
             move = change;
-            possibleMoves = new SortedList<int, GameStateNode>(new DuplicateKeyComparer<int>());
+            possibleMoves = new List<GameStateNode>();
             calculateScore();
         }
         public GameStateNode(Board gameBoard, GameState gameState)
@@ -35,9 +38,14 @@ namespace comp472project
             this.gameState = gameState;
             boardState = gameBoard;
             depth = 0;
-            possibleMoves = new SortedList<int, GameStateNode>(new DuplicateKeyComparer<int>());
+            possibleMoves = new List<GameStateNode>();
             calculateScore();
         }
+
+        //public static void resetTimer()
+        //{
+        //    timer = 0;
+        //}
 
         void calculateScore()
         //MAIN HEURISTIC FUNCTION
@@ -51,29 +59,87 @@ namespace comp472project
                 {
                     if (boardState.getCell(i, j) == 'E')
                     {
-                        if (gameState == GameState.BlackPlay && boardState.getCell(i, j + 1) == 'E')
+                        if (boardState.getCell(i, j + 1) == 'E')
                         {
                             ++blackMoves;
-                            if (gameState == GameState.BlackPlay)
-                                generateNodeState('B', i, j, gameState);
+                            //if (gameState == GameState.BlackPlay)
+                            //    generateNodeState('B', i, j, gameState);
                         }
                         if ( boardState.getCell(i + 1, j) == 'E')
                         {
                             ++whiteMoves;
-                            if(gameState == GameState.WhitePlay)
-                                generateNodeState('W', i, j, gameState);
+                            //if(gameState == GameState.WhitePlay)
+                            //    generateNodeState('W', i, j, gameState);
                         }
                     }
                 }
             }
             score = whiteMoves - blackMoves;
         }
+        public void GenerateSeachLevel(int level)
+        {
+            long elapsed = timer.ElapsedMilliseconds;
+            if (level == 0 && elapsed < CREATE_LIMIT)
+            {
+                int boardSize = Board.getSize();
+                for (int i = 0; i < boardSize; ++i)
+                {
+                    for (int j = 0; j < boardSize; ++j)
+                    {
+                        if (boardState.getCell(i, j) == 'E')
+                        {
+                            if (gameState == GameState.BlackPlay && boardState.getCell(i, j + 1) == 'E')
+                            {
+                                if (gameState == GameState.BlackPlay)
+                                    generateNodeState('B', i, j, gameState);
+                            }
+                            if (boardState.getCell(i + 1, j) == 'E')
+                            {
+                                if (gameState == GameState.WhitePlay)
+                                    generateNodeState('W', i, j, gameState);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (level > 0 && elapsed < CREATE_LIMIT)
+            {
+                foreach(GameStateNode currentNode in possibleMoves)
+                {
+                    currentNode.GenerateSeachLevel(level - 1);
+                }
+            }
+        }
+        void GenerateSeachSpace()
+        { //BUILD STATE (single level) TREE BREATH FIRST
+            int boardSize = Board.getSize();
+            for (int i = 0; i < boardSize; ++i)
+            {
+                for (int j = 0; j < boardSize; ++j)
+                {
+                    if (boardState.getCell(i, j) == 'E')
+                    {
+                        if (gameState == GameState.BlackPlay && boardState.getCell(i, j + 1) == 'E')
+                        {
+                            if (gameState == GameState.BlackPlay)
+                                generateNodeState('B', i, j, gameState);
+                        }
+                        if (boardState.getCell(i + 1, j) == 'E')
+                        {
+                            if (gameState == GameState.WhitePlay)
+                                generateNodeState('W', i, j, gameState);
+                        }
+                    }
+                }
+            }
+        }
         void generateNodeState(char color, int i, int j, GameState gameState)
-        //GENERATES GAME STATE TREE AND STATE SCORES USED FOR MIN MAX
+        //GENERATES GAME STATE NODE AND SCORES USED FOR MIN MAX
         {
             GameStateNode newGameStateNode;
             Board newBoard = new Board(boardState);
             Move newMove;
+            //MAKE MOVE FOR NEW BOARD
             if(color == 'B')
             {
                 newBoard.changeTile(color, i, j);
@@ -85,115 +151,113 @@ namespace comp472project
                 newBoard.changeTile(color, i + 1, j);
             }
 
-            //HACKED COMPUTATION REDUCTION: DOES NOT GENERATE TREE FOR THE FIRST BOARDSIZE - PLAYS > 5 MOVES
-            if (depth <= (Board.getSize() - Game.playCount >= 2? 0 : Game.depth ))
-            {
-                newMove = new Move();
-                newMove.setMove(i, j, color);
-                //create a gameStateNode with the new board, the new boards depth, and the move added
-                newGameStateNode = new GameStateNode(newBoard, depth, newMove, gameState);
-                newGameStateNode.calculateScore();
-                //Adjust move to be on 1-N scale so it uses same notation as human
-                newMove.setMove(newMove.getX(), newMove.getY() + 1, color);
-                possibleMoves.Add(newGameStateNode.getScore(), newGameStateNode);
-            }
+            newMove = new Move();
+            newMove.setMove(i, j, color);
+            //create a gameStateNode with the new board, the new boards depth, and the move added
+            newGameStateNode = new GameStateNode(newBoard, depth, newMove, gameState);
+            newGameStateNode.calculateScore();
+            //Adjust move to be on 1-N scale so it uses same notation as human
+            newMove.setMove(newMove.getX(), newMove.getY() + 1, color);
+            possibleMoves.Add(newGameStateNode);
         }
         public Move getPossibleMove(char color)
         //GET MOVE FROM THE MIN MAX TREE FOR AI PLAYER
         {
-            if (possibleMoves.Count != 0)
-            {
-                //if (color == 'W')
-                //    return possibleMoves.Last().Value.move;
-                //else
-                //    return possibleMoves.First().Value.move;
-                if (possibleMoves.Count == 1)
-                    return possibleMoves.ElementAt(0).Value.move;
-                return findBestMove(color).move;
-            }
-            else
-            {
-                return null;
-            }
+        //    if (possibleMoves.Count != 0)
+        //    {
+        //        //if (color == 'W')
+        //        //    return possibleMoves.Last().Value.move;
+        //        //else
+        //        //    return possibleMoves.First().Value.move;
+        //        if (possibleMoves.Count == 1)
+        //            return possibleMoves.ElementAt(0).Value.move;
+        //        return findBestMove(color).move;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+            return null;
         }
         public GameStateNode findBestMove(char color, int level = 0)
         {
-            GameStateNode bestMove = null;
-            //int level = 1;
+        //    GameStateNode bestMove = null;
+        //    //int level = 1;
 
-            //if (possibleMoves.Count != 0)
-            //{
-                if (level <= MAX_DEPTH)
-                {
-                    int bestScore;
-                    if (color == 'W')
-                    {
-                        //return possibleMoves.Last().Value.move;
-                        bestScore = possibleMoves.Last().Key;
-                        int i = possibleMoves.Count - 1;
-                        //from the best score state, get the worst move min will play
-                        while (i >= 0 && possibleMoves.ElementAt(i).Key == bestScore)
-                        {
-                            GameStateNode temp = null;
-                            if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
-                            {
+        //    //if (possibleMoves.Count != 0)
+        //    //{
+        //        if (level <= MAX_DEPTH)
+        //        {
+        //            int bestScore;
+        //            if (color == 'W')
+        //            {
+        //                //return possibleMoves.Last().Value.move;
+        //                bestScore = possibleMoves.Last().Key;
+        //                int i = possibleMoves.Count - 1;
+        //                //from the best score state, get the worst move min will play
+        //                while (i >= 0 && possibleMoves.ElementAt(i).Key == bestScore)
+        //                {
+        //                    GameStateNode temp = null;
+        //                    if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
+        //                    {
 
-                                temp =  possibleMoves.ElementAt(i--).Value.findBestMove
-                                ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
+        //                        temp =  possibleMoves.ElementAt(i--).Value.findBestMove
+        //                        ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
                                 
-                                if (temp == null)
-                                {
-                                    return possibleMoves.First().Value;
-                                }
-                                else
-                                {
-                                    if (bestMove == null || bestMove.score > temp.score)
-                                        bestMove = temp;
-                                }
-                            }
-                            else
-                            {
-                                //DEBUG
-                                GameStateNode tester = possibleMoves.Last().Value;
-                                //DEBUG
-                                return possibleMoves.Last().Value;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        bestScore = possibleMoves.First().Key;
-                        int i = 0;
-                        while (i < possibleMoves.Count && possibleMoves.ElementAt(i).Key == bestScore)
-                        {
-                            GameStateNode temp = null;
-                            if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
-                            {
-                                temp = possibleMoves.ElementAt(i++).Value.findBestMove
-                                     ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
+        //                        if (temp == null)
+        //                        {
+        //                            return possibleMoves.First().Value;
+        //                        }
+        //                        else
+        //                        {
+        //                            if (bestMove == null || bestMove.score > temp.score)
+        //                                bestMove = temp;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        //DEBUG
+        //                        GameStateNode tester = possibleMoves.Last().Value;
+        //                        //DEBUG
+        //                        return possibleMoves.Last().Value;
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                bestScore = possibleMoves.First().Key;
+        //                int i = 0;
+        //                while (i < possibleMoves.Count && possibleMoves.ElementAt(i).Key == bestScore)
+        //                {
+        //                    GameStateNode temp = null;
+        //                    if (possibleMoves.ElementAt(i).Value.possibleMoves.Count != 0)
+        //                    {
+        //                        temp = possibleMoves.ElementAt(i++).Value.findBestMove
+        //                             ((gameState == GameState.WhitePlay ? 'B' : 'W'), level + 1);
 
-                                if (temp == null)
-                                {
-                                    return possibleMoves.First().Value;
-                                }
-                                else
-                                {
-                                    if (bestMove == null || bestMove.score < temp.score)
-                                        bestMove = temp;
-                                }
-                            }
-                            else
-                            {
-                                //DEBUG
-                                GameStateNode tester = possibleMoves.First().Value;
-                                //DEBUG
-                                return possibleMoves.First().Value;
-                            }
+        //                        if (temp == null)
+        //                        {
+        //                            return possibleMoves.First().Value;
+        //                        }
+        //                        else
+        //                        {
+        //                            if (bestMove == null || bestMove.score < temp.score)
+        //                                bestMove = temp;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        //DEBUG
+        //                        GameStateNode tester = possibleMoves.First().Value;
+        //                        //DEBUG
+        //                        return possibleMoves.First().Value;
+        //                    }
     
-                        }
-                    }
-            }
-            return bestMove;
+        //                }
+        //            }
+        //    }
+        //    return bestMove;
+            return null;
         }
 
         public int getScore()

@@ -19,7 +19,13 @@ namespace comp472project
 
         public void generatePlayOptions(GameState gameState)
         {
+            GameStateNode.timer = System.Diagnostics.Stopwatch.StartNew();
             lowestGSLevel = new GameStateNode(Game.getBoard(), gameState);
+            int i = 0;
+            while(GameStateNode.timer.ElapsedMilliseconds < GameStateNode.CREATE_LIMIT)
+            {
+                lowestGSLevel.GenerateSeachLevel(i++);
+            }
         }
 
         public Move getPlay(char color)
