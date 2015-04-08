@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace comp472project
 {
+    public enum MinMax
+    {
+        MIN, MAX
+    };
     class Heuristic
     {
         //Board currentState;
         GameStateNode lowestGSLevel;
+        MinMax searchState = MinMax.MAX;
+        static int hightestSoFar = 0;
+        int lowestSoFar = 0;
 
         public Heuristic()
         {
@@ -20,13 +27,30 @@ namespace comp472project
         public void generatePlayOptions(GameState gameState)
         {
             GameStateNode.timer = System.Diagnostics.Stopwatch.StartNew();
+
+            if (gameState == GameState.WhitePlay)
+                searchState = MinMax.MAX;
+            else
+                searchState = MinMax.MIN;
+
             lowestGSLevel = new GameStateNode(Game.getBoard(), gameState);
             int i = 0;
             while(GameStateNode.timer.ElapsedMilliseconds < GameStateNode.CREATE_LIMIT)
             {
                 lowestGSLevel.GenerateSeachLevel(i++);
             }
+            Move temp = lowestGSLevel.getPlay(searchState).move;
         }
+
+        //public void traverse(GameStateNode currentNode)
+        //{
+        //    Stack<GameStateNode> queued = new Stack<GameStateNode>();
+        //    foreach(GameStateNode node in lowestGSLevel.possibleMoves)
+        //    {
+        //        traverse(node);
+        //    }
+
+        //}
 
         public Move getPlay(char color)
         {
