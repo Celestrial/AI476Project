@@ -19,7 +19,10 @@ namespace comp472project
                 input = input.ToUpper();
                 char temp = input[0];
                 x = (int)temp - 65;
-                y = (int)input[1] - 49;
+                if (input.Length == 3)
+                    y = Convert.ToInt32(input.Substring(1))-1;
+                else
+                    y = (int)input[1] - 49;
             }
             catch (Exception e)
             {
