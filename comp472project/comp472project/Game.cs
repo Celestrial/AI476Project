@@ -179,9 +179,9 @@ namespace comp472project
             }
             printBoard();
             if (gameState == GameState.BlackPlay)
-                Console.WriteLine("Black Wins!!!");
+                Console.WriteLine("Black Wins!!!\n");
             else
-                Console.Write("White Wins!!!");
+                Console.Write("White Wins!!!\n");
             gameState = GameState.GameOver;
         }
 

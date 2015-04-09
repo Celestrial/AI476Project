@@ -16,6 +16,7 @@ namespace comp472project
         GameStateNode lowestGSLevel;
         MinMax searchState = MinMax.MAX;
         static int hightestSoFar = 0;
+        public static bool first = true;
         int lowestSoFar = 0;
 
         public Heuristic()
@@ -60,7 +61,9 @@ namespace comp472project
             //else
             //    return lowestGSLevel.getPossibleMove(color);
             //return null;
-            return lowestGSLevel.getPlay(color == 'W' ? MinMax.MAX : MinMax.MIN).move;
+            Move temp = lowestGSLevel.getPlay(color == 'W' ? MinMax.MAX : MinMax.MIN).move;
+            first = true;
+            return temp;
         }
     }
 }

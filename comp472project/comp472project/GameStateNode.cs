@@ -31,13 +31,14 @@ namespace comp472project
             //CONSTRUCTOR FOR NESTED NODES
             this.gameState = new GameState();
             //this.gameState = ((gameState == GameState.WhitePlay && depth != 0) ? GameState.BlackPlay : GameState.WhitePlay);
-            if (depth != 0)
+            if(!Heuristic.first)//if (depth != 0)
             {
                 if (gameState == GameState.WhitePlay)
                     this.gameState = GameState.BlackPlay;
                 if (gameState == GameState.BlackPlay)
                     this.gameState = GameState.WhitePlay;
             }
+            Heuristic.first = false;
             boardState = gameBoard;//copy the current board under consideration
             this.depth = depth+1; // number
             move = change;
