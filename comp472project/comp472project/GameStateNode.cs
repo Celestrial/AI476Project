@@ -30,7 +30,14 @@ namespace comp472project
         {
             //CONSTRUCTOR FOR NESTED NODES
             this.gameState = new GameState();
-            this.gameState = (gameState == GameState.WhitePlay ? GameState.BlackPlay : GameState.WhitePlay);
+            //this.gameState = ((gameState == GameState.WhitePlay && depth != 0) ? GameState.BlackPlay : GameState.WhitePlay);
+            if (depth != 0)
+            {
+                if (gameState == GameState.WhitePlay)
+                    this.gameState = GameState.BlackPlay;
+                if (gameState == GameState.BlackPlay)
+                    this.gameState = GameState.WhitePlay;
+            }
             boardState = gameBoard;//copy the current board under consideration
             this.depth = depth+1; // number
             move = change;
@@ -70,10 +77,14 @@ namespace comp472project
                         if (boardState.getCell(i, j + 1) == 'E')
                         {
                             ++blackMoves;
+                            if ((j % 2) == 0)
+                                ++blackMoves;
                         }
                         if ( boardState.getCell(i + 1, j) == 'E')
                         {
                             ++whiteMoves;
+                            if ((i % 2) == 0)
+                                ++whiteMoves;
                         }
                     }
                 }
@@ -92,12 +103,12 @@ namespace comp472project
                     {
                         if (boardState.getCell(i, j) == 'E')
                         {
-                            if (gameState == GameState.BlackPlay && boardState.getCell(i, j + 1) == 'E')
+                            if (gameState == GameState.BlackPlay && j+1 != boardSize && boardState.getCell(i, j + 1) == 'E')
                             {
                                 if (gameState == GameState.BlackPlay)
                                     generateNodeState('B', i, j, gameState);
                             }
-                            if (boardState.getCell(i + 1, j) == 'E')
+                            if (gameState == GameState.WhitePlay && i + 1 != boardSize && boardState.getCell(i + 1, j) == 'E')
                             {
                                 if (gameState == GameState.WhitePlay)
                                     generateNodeState('W', i, j, gameState);
@@ -116,22 +127,41 @@ namespace comp472project
         }
         public GameStateNode getPlay(MinMax currentTest)
         {
-            if (possibleMoves.Count == 0)
+            if (possibleMoves.Count == 0)//check for children
                 return this;
-            else
+            else if (this.depth == 0)
             {
-                GameStateNode bestSoFar = new GameStateNode() ;
-
-                foreach(GameStateNode currentNode in possibleMoves)
+                GameStateNode bestSoFar = new GameStateNode();
+                //GO THROUGH CHILDREN CHANGE CHECK FOR BEST ONE
+                foreach (GameStateNode currentNode in possibleMoves)
                 {
-                    if(currentTest == MinMax.MAX)
+                    if (currentTest == MinMax.MAX)
                     {
-                        if (currentNode.getPlay(MinMax.MIN).score > bestSoFar.score)
+                        if (bestSoFar.boardState == null || currentNode.getPlay(MinMax.MAX).score > bestSoFar.score)
                             bestSoFar = currentNode;
                     }
                     else
                     {
-                        if (currentNode.getPlay(MinMax.MAX).score < bestSoFar.score)
+                        if (bestSoFar.boardState == null || currentNode.getPlay(MinMax.MIN).score < bestSoFar.score)
+                            bestSoFar = currentNode;
+                    }
+                }
+                return bestSoFar;
+            }
+            else
+            {
+                GameStateNode bestSoFar = new GameStateNode();
+                //GO THROUGH CHILDREN CHANGE CHECK FOR BEST ONE
+                foreach (GameStateNode currentNode in possibleMoves)
+                {
+                    if (currentTest == MinMax.MAX)
+                    {
+                        if (bestSoFar.boardState == null || currentNode.getPlay(MinMax.MIN).score > bestSoFar.score)
+                            bestSoFar = currentNode;
+                    }
+                    else
+                    {
+                        if (bestSoFar.boardState == null || currentNode.getPlay(MinMax.MAX).score < bestSoFar.score)
                             bestSoFar = currentNode;
                     }
                 }
@@ -183,13 +213,13 @@ namespace comp472project
             newMove.setMove(i, j, color);
             //create a gameStateNode with the new board, the new boards depth, and the move added
             newGameStateNode = new GameStateNode(newBoard, depth, newMove, gameState);
-            newGameStateNode.calculateScore();
+            //newGameStateNode.calculateScore();
             //Adjust move to be on 1-N scale so it uses same notation as human
-            newMove.setMove(newMove.getX(), newMove.getY() + 1, color);
+            newMove.setMove(newMove.getX(), newMove.getY(), color);
             possibleMoves.Add(newGameStateNode);
         }
-        public Move getPossibleMove(char color)
-        //GET MOVE FROM THE MIN MAX TREE FOR AI PLAYER
+        public Move getPossibleMove(char color)//GET MOVE FROM THE MIN MAX TREE FOR AI PLAYER
+        
         {
         //    if (possibleMoves.Count != 0)
         //    {

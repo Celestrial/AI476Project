@@ -39,7 +39,8 @@ namespace comp472project
             {
                 lowestGSLevel.GenerateSeachLevel(i++);
             }
-            Move temp = lowestGSLevel.getPlay(searchState).move;
+            //Move temp = lowestGSLevel.getPlay(searchState).move;
+            //return temp;
         }
 
         //public void traverse(GameStateNode currentNode)
@@ -54,11 +55,12 @@ namespace comp472project
 
         public Move getPlay(char color)
         {
-            if (lowestGSLevel.getPossibleMove(color) == null)
-                Program.EndGame(Game.gameState);
-            else
-                return lowestGSLevel.getPossibleMove(color);
-            return null;
+            //if (lowestGSLevel.getPossibleMove(color) == null)
+            //    Program.EndGame(Game.gameState);
+            //else
+            //    return lowestGSLevel.getPossibleMove(color);
+            //return null;
+            return lowestGSLevel.getPlay(color == 'W' ? MinMax.MAX : MinMax.MIN).move;
         }
     }
 }

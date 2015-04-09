@@ -19,8 +19,9 @@ namespace comp472project
             Move temp = skyNet.getPlay(base.getColor());
             if (temp == null)
                 return null;
-            char convert = (char)(temp.getX()+65);
-            play = convert + temp.getY().ToString();
+            char convert = (char)(temp.getX() + 65);
+            play = convert + (temp.getY()+1).ToString();
+            //play = convert + (temp.getY()).ToString();
 
             if (base.getColor() == 'W')
             {

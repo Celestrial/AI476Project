@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace comp472project
 {
@@ -11,6 +12,16 @@ namespace comp472project
 
         public Board()
         {
+            Console.Write("Enter game board size: ");
+            try
+            {
+                SIZE = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception e)
+            {
+                SIZE = 8;
+            }
+            Console.WriteLine("\n");
             gameBoard = new char[SIZE, SIZE];
             makeBoard();
         }
