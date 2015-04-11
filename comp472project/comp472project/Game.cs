@@ -80,6 +80,7 @@ namespace comp472project
                 p2 = new AIPlayer('B');
                 p1 = new AIPlayer('W');
             }
+            board.printBoard();
         }
 
         bool validPlay(char color, int x, int y)

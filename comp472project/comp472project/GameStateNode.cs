@@ -69,26 +69,32 @@ namespace comp472project
                         if (boardState.getCell(i, j + 1) == 'E')
                         {
                             ++blackMoves;//GET A POINT FOR EACH AVAILABLE BLACK MOVE
-                            if ((i % 2) == 1 )
-                                ++blackMoves;//GET POINT IF MOVE IS ON EVERY SECOND COLUMN
-                            if (i != boardSize - 1 && i != 0)
-                                blackMoves += .5f;//HALF POINT IF NOT FIRST OR LAST COLUMN
+                            //if ((i % 2) == 1)
+                            //    ++blackMoves;//GET POINT IF MOVE IS ON EVERY SECOND COLUMN
+                            //if (boardSize % 2 != 1)
+                            //{
+                            //    if (i == boardSize - 1 && i == 0)
+                            //        blackMoves += 1f;//HALF POINT IF NOT FIRST OR LAST ROW
+                            //}
                             //if (boardState.getCell(i + 1, j) == 'E' && boardState.getCell(i + 1, j + 1) == 'E')
-                            //    blackMoves += 0.5f;
-                            //if (boardState.getCell(i - 1, j) == 'E' && boardState.getCell(i - 1, j + 1) == 'E')
-                            //    blackMoves += 0.5f;    
+                            //    if (boardState.getCell(i - 1, j) == 'E' && boardState.getCell(i - 1, j + 1) == 'E')
+                            //        blackMoves += 2f;
+                            
                         }
                         if ( boardState.getCell(i + 1, j) == 'E')
                         {
                             ++whiteMoves;//GET A POINT FOR EACH AVAILABLE WHITE MOVE
-                            if ((j % 2) == 1)
-                                ++whiteMoves;//GET POINT IF MOVE IS ON EVERY SECOND COLUMN
-                            if (j != boardSize - 1 && j != 0)
-                                whiteMoves += .5f;//HALF POINT IF NOT FIRST OR LAST ROW
-                            //if (boardState.getCell(i, j+1) == 'E' && boardState.getCell(i + 1, j + 1) == 'E')
-                            //    whiteMoves += 0.5f;
-                            //if (boardState.getCell(i, j-1) == 'E' && boardState.getCell(i + 1, j - 1) == 'E')
-                            //    whiteMoves += 0.5f;    
+                            //if ((j % 2) == 1)
+                            //    ++whiteMoves;//GET POINT IF MOVE IS ON EVERY SECOND COLUMN
+                            //if (boardSize % 2 != 1)
+                            //{
+                            //    if (j == boardSize - 1 && j == 0)
+                            //        whiteMoves += 1f;//HALF POINT IF NOT FIRST OR LAST ROW
+                            //}
+                            //if (boardState.getCell(i, j + 1) == 'E' && boardState.getCell(i + 1, j + 1) == 'E')
+                            //    if (boardState.getCell(i, j - 1) == 'E' && boardState.getCell(i + 1, j - 1) == 'E')
+                            //         whiteMoves += 2f;
+                            
                         }
                     }
                 }

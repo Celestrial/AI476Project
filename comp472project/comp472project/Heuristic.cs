@@ -62,6 +62,7 @@ namespace comp472project
             //    return lowestGSLevel.getPossibleMove(color);
             //return null;
             Move temp = lowestGSLevel.getPlay(color == 'W' ? MinMax.MAX : MinMax.MIN).move;
+            Console.WriteLine("Board State Score = " + lowestGSLevel.getScore());
             first = true;
             return temp;
         }
