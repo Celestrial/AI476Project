@@ -8,7 +8,8 @@ namespace comp472project
     {
         static int SIZE = 8;
         char[,] gameBoard;
-
+        const char BLACK_CHAR = (char)((byte)254);
+        const char WHITE_CHAR = (char)((byte)255);
 
         public Board()
         {
@@ -24,6 +25,45 @@ namespace comp472project
             Console.WriteLine("\n");
             gameBoard = new char[SIZE, SIZE];
             makeBoard();
+        }
+        public void printBoard()
+        {
+            Console.Write("  ");
+            for (int i = 0; i < Board.getSize(); ++i)
+            {
+                Console.Write("  [" + (i + 1) + "]");
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < Board.getSize(); ++i)
+            {
+                Console.Write("[" + (char)(65 + i) + "]");
+                for (int j = 0; j < Board.getSize(); ++j)
+                {
+                    if (j != Board.getSize() - 1)
+                    {
+                        if(getCell(i,j) == 'E')
+                            Console.Write(" [ ],");
+                        else if (getCell(i, j) == 'B')
+                            Console.Write(" [" + getCell(i, j) + "],");
+                        else if (getCell(i, j) == 'W')
+                            Console.Write(" [" + getCell(i, j) + "],");
+                        else
+                            Console.Write("Problem");
+                    }
+                    else if(getCell(i,j) == 'E')
+                            Console.Write(" [ ]");
+                        else if (getCell(i, j) == 'B')
+                            Console.Write(" [" + getCell(i, j) + "]");
+                        else if (getCell(i, j) == 'W')
+                            Console.Write(" [" + getCell(i, j) + "]");
+                        else
+                            Console.Write("Problem");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
         }
         public Board(Board other)
         {
@@ -80,7 +120,7 @@ namespace comp472project
 
         public char getCell(int x, int y)
         {
-            if (x >= SIZE || y >= SIZE)
+            if (x >= SIZE || y >= SIZE || x < 0 || y < 0)
                 return '\0';
              return gameBoard[x, y];
         }

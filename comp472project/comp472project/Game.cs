@@ -59,8 +59,7 @@ namespace comp472project
                 }
                 catch (FormatException e)
                 {
-                    p2 = new HPlayer('B');
-                    p1 = new AIPlayer('W');
+                    input = 2;
                 }
                 finally
                 {
@@ -68,6 +67,11 @@ namespace comp472project
                     {
                         p2 = new AIPlayer('B');
                         p1 = new HPlayer('W');
+                    }
+                    else
+                    {
+                        p1 = new AIPlayer('W');
+                        p2 = new HPlayer('B');
                     }
                 }
             }
@@ -187,27 +191,7 @@ namespace comp472project
 
         internal void printBoard()
         {
-            Console.Write("  "); 
-            for (int i = 0; i < Board.getSize(); ++ i)
-            {
-                Console.Write("  [" + (i+1) + "]");
-            }
-            Console.WriteLine(); 
-
-            for (int i = 0; i < Board.getSize(); ++i)
-            {
-                Console.Write("[" +(char)(65 + i)+"]");
-                for (int j = 0; j < Board.getSize(); ++j)
-                {
-                    if (j != Board.getSize() - 1)
-                        Console.Write("  " + board.getCell(i, j) + " ,");
-                    else
-                        Console.Write("  " + board.getCell(i, j));
-                }
-                Console.WriteLine();
-            }
-
-            Console.WriteLine();
+            board.printBoard();
         }
 
         internal void switchPlayers()
